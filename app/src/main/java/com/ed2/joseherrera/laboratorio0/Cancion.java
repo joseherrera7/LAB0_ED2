@@ -1,6 +1,11 @@
 package com.ed2.joseherrera.laboratorio0;
 
 public class Cancion {
+    public Cancion(String nombre, int duracion) {
+        Duracion = duracion;
+        Nombre = nombre;
+    }
+
     private String Nombre;
     private int Duracion;
 
