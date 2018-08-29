@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(adapterView.getContext(),"Cancion agregada: "+adapterView.getItemAtPosition(i).toString(),Toast.LENGTH_SHORT).show();
+
             }
         });
     }
