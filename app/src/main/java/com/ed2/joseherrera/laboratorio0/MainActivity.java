@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-            Map<String, Cancion> diccionarioCanciones=new HashMap<>();
+            final Map<String, Cancion> diccionarioCanciones=new HashMap<>();
         ArrayList<String> mostradas;
 
         Cancion cancion1 = new Cancion("Brindemos", 120);
@@ -58,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(adapterView.getContext(),"Cancion agregada: "+adapterView.getItemAtPosition(i).toString(),Toast.LENGTH_SHORT).show();
-
+                Cancion agregada= diccionarioCanciones.get(adapterView.getItemAtPosition(i).toString());
+                Playlist.playlist.put(agregada.getNombre(),agregada);
             }
         });
     }
