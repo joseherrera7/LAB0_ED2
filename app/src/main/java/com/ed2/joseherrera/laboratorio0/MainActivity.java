@@ -1,13 +1,25 @@
 package com.ed2.joseherrera.laboratorio0;
 
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.SearchView;
 
+
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Dictionary;
@@ -15,16 +27,24 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.ToIntFunction;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
  ListView cancionesagregar;
+    public final Map<String, Cancion> diccionarioCanciones=new HashMap<>();
+    private SearchView mSearchView;
+    private ListView mListView;
+
+    private final String[] mStrings = { "Google", "Apple", "Samsung", "Sony", "LG", "HTC" };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+
         setContentView(R.layout.activity_main);
-            final Map<String, Cancion> diccionarioCanciones=new HashMap<>();
+
         ArrayList<String> mostradas;
 
         Cancion cancion1 = new Cancion("Brindemos", 120);
@@ -62,5 +82,33 @@ public class MainActivity extends AppCompatActivity {
                 Playlist.playlist.put(agregada.getNombre(),agregada);
             }
         });
+        mSearchView = (SearchView) findViewById(R.id.search_view);
+        mListView = (ListView) findViewById(R.id.canciones);
+        mListView.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,
+                mostradas));
+        mListView.setTextFilterEnabled(true);
+        setupSearchView();
+    }
+    private void setupSearchView() {
+        mSearchView.setIconifiedByDefault(false);
+        mSearchView.setOnQueryTextListener(this);
+        mSearchView.setSubmitButtonEnabled(true);
+        mSearchView.setQueryHint("Search Here");
+    }
+
+    public boolean onQueryTextChange(String newText) {
+        if (TextUtils.isEmpty(newText)) {
+            mListView.clearTextFilter();
+        } else {
+            mListView.setFilterText(newText.toString());
+        }
+        return true;
+    }
+
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
 }
+
+

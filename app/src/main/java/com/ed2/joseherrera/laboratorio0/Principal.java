@@ -20,4 +20,5 @@ public class Principal extends AppCompatActivity {
         Intent intento =new Intent(Principal.this,Playlist.class);
         startActivity(intento);
     }
+
 }
