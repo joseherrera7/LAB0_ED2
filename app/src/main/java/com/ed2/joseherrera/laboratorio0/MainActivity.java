@@ -1,5 +1,7 @@
 package com.ed2.joseherrera.laboratorio0;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -29,15 +32,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.ToIntFunction;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
-
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, View.OnClickListener {
+    ArrayList<String> mostradas;
  ListView cancionesagregar;
     public final Map<String, Cancion> diccionarioCanciones=new HashMap<>();
     private SearchView mSearchView;
     private ListView mListView;
+    private Button btn;
 
     private final String[] mStrings = { "Google", "Apple", "Samsung", "Sony", "LG", "HTC" };
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         setContentView(R.layout.activity_main);
 
-        ArrayList<String> mostradas;
+
 
         Cancion cancion1 = new Cancion("Brindemos", 120);
         Cancion cancion2 = new Cancion("Rain Over ME", 155);
@@ -84,11 +89,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         });
         mSearchView = (SearchView) findViewById(R.id.search_view);
         mListView = (ListView) findViewById(R.id.canciones);
+        btn = (Button)  findViewById(R.id.ascendenteBtn);
         mListView.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
                 mostradas));
         mListView.setTextFilterEnabled(true);
         setupSearchView();
+        btn.setOnClickListener(this);
+
+
     }
     private void setupSearchView() {
         mSearchView.setIconifiedByDefault(false);
@@ -108,6 +117,22 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     public boolean onQueryTextSubmit(String query) {
         return false;
+    }
+    Boolean bandera = false;
+    @Override
+    public void onClick(View v) {
+
+        if (bandera == true){
+            Collections.sort(mostradas, Collections.reverseOrder());
+            mListView.refreshDrawableState();
+            bandera = false;
+        }
+        else {
+            Collections.sort(mostradas);
+            mListView.refreshDrawableState();
+            bandera = true;
+        }
+
     }
 }
 
