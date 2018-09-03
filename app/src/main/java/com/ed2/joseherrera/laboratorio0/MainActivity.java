@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.ToIntFunction;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, View.OnClickListener, AdapterView.OnItemClickListener {
     ArrayList<String> mostradas;
  ListView cancionesagregar;
     public final Map<String, Cancion> diccionarioCanciones=new HashMap<>();
@@ -76,17 +76,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         diccionarioCanciones.put(cancion8.getNombre(),cancion8);
         diccionarioCanciones.put(cancion9.getNombre(),cancion9);
         diccionarioCanciones.put(cancion10.getNombre(),cancion10);
-        mostradas = new ArrayList<>(diccionarioCanciones.keySet());
+
+        mostradas = new ArrayList<String>(diccionarioCanciones.keySet());
         ArrayAdapter adaptador=new ArrayAdapter(this,android.R.layout.simple_list_item_1,  mostradas);
         cancionesagregar.setAdapter(adaptador);
-        cancionesagregar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(adapterView.getContext(),"Cancion agregada: "+adapterView.getItemAtPosition(i).toString(),Toast.LENGTH_SHORT).show();
-                Cancion agregada= diccionarioCanciones.get(adapterView.getItemAtPosition(i).toString());
-                Playlist.playlist.put(agregada.getNombre(),agregada);
-            }
-        });
+        cancionesagregar.setOnItemClickListener(
+        this
+        );
         mSearchView = (SearchView) findViewById(R.id.search_view);
         mListView = (ListView) findViewById(R.id.canciones);
         btn = (Button)  findViewById(R.id.ascendenteBtn);
@@ -133,6 +129,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             bandera = true;
         }
 
+    }
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Toast.makeText(adapterView.getContext(),"Cancion agregada: "+adapterView.getItemAtPosition(i).toString(),Toast.LENGTH_SHORT).show();
+        Cancion agregada= diccionarioCanciones.get(adapterView.getItemAtPosition(i).toString());
+        Playlist.playlist.put(agregada.getNombre(),agregada);
     }
 }
 
