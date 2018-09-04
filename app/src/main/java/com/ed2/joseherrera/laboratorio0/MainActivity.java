@@ -33,14 +33,15 @@ import java.util.Map;
 import java.util.function.ToIntFunction;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, View.OnClickListener, AdapterView.OnItemClickListener {
-    ArrayList<String> mostradas;
- ListView cancionesagregar;
+    ArrayList<Cancion> mostradas;
+ListView cancionesagregar;
     public final Map<String, Cancion> diccionarioCanciones=new HashMap<>();
     private SearchView mSearchView;
     private ListView mListView;
     private Button btn;
 
     private final String[] mStrings = { "Google", "Apple", "Samsung", "Sony", "LG", "HTC" };
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         setContentView(R.layout.activity_main);
 
-
+        mListView = (ListView) findViewById(R.id.canciones);
 
         Cancion cancion1 = new Cancion("Brindemos", 120);
         Cancion cancion2 = new Cancion("Rain Over ME", 155);
@@ -77,19 +78,19 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         diccionarioCanciones.put(cancion9.getNombre(),cancion9);
         diccionarioCanciones.put(cancion10.getNombre(),cancion10);
 
-        mostradas = new ArrayList<String>(diccionarioCanciones.keySet());
-        ArrayAdapter adaptador=new ArrayAdapter(this,android.R.layout.simple_list_item_1,  mostradas);
+        mostradas = new ArrayList<Cancion>(diccionarioCanciones.values());
+       Adaptadorcanciones adaptador =new Adaptadorcanciones(this,R.layout.adaptador_view,mostradas);
+
         cancionesagregar.setAdapter(adaptador);
-        cancionesagregar.setOnItemClickListener(
+       cancionesagregar.setOnItemClickListener(
         this
         );
-        mSearchView = (SearchView) findViewById(R.id.search_view);
-        mListView = (ListView) findViewById(R.id.canciones);
+       mSearchView = (SearchView) findViewById(R.id.search_view);
+
         btn = (Button)  findViewById(R.id.ascendenteBtn);
-        mListView.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
-                mostradas));
+        mListView.setAdapter(adaptador);
         mListView.setTextFilterEnabled(true);
+        mListView.setOnItemClickListener(this);
         setupSearchView();
         btn.setOnClickListener(this);
 
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         if (TextUtils.isEmpty(newText)) {
             mListView.clearTextFilter();
         } else {
-            mListView.setFilterText(newText.toString());
+           // mListView.filter;
         }
         return true;
     }
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             bandera = false;
         }
         else {
-            Collections.sort(mostradas);
+            //Collections.sort(mostradas,Collections.);
             mListView.refreshDrawableState();
             bandera = true;
         }
@@ -132,8 +133,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(adapterView.getContext(),"Cancion agregada: "+adapterView.getItemAtPosition(i).toString(),Toast.LENGTH_SHORT).show();
-        Cancion agregada= diccionarioCanciones.get(adapterView.getItemAtPosition(i).toString());
+
+        String var;
+        var=adapterView.getItemAtPosition(i).toString();
+        Toast.makeText(adapterView.getContext(),"Cancion agregada: "+mostradas.get(i).getNombre(),Toast.LENGTH_SHORT).show();
+
+        Cancion agregada= diccionarioCanciones.get(mostradas.get(i).getNombre());
         Playlist.playlist.put(agregada.getNombre(),agregada);
     }
 }
