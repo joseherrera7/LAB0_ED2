@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -46,12 +47,9 @@ ListView cancionesagregar;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 
-        setContentView(R.layout.activity_main);
-
-        mListView = (ListView) findViewById(R.id.canciones);
 
         Cancion cancion1 = new Cancion("Brindemos", 120);
         Cancion cancion2 = new Cancion("Rain Over ME", 155);
@@ -82,10 +80,12 @@ ListView cancionesagregar;
        Adaptadorcanciones adaptador =new Adaptadorcanciones(this,R.layout.adaptador_view,mostradas);
 
         cancionesagregar.setAdapter(adaptador);
-       cancionesagregar.setOnItemClickListener(
+        cancionesagregar.setOnItemClickListener(
         this
         );
-       mSearchView = (SearchView) findViewById(R.id.search_view);
+        AutoCompleteTextView textView = findViewById(R.id.autoCompleteTextView);
+        textView.setAdapter(adaptador);
+        mSearchView = (SearchView) findViewById(R.id.search_view);
 
         btn = (Button)  findViewById(R.id.ascendenteBtn);
         mListView.setAdapter(adaptador);
