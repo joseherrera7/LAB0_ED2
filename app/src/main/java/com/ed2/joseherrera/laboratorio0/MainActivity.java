@@ -88,7 +88,7 @@ ListView cancionesagregar;
        final Adaptadorcanciones adaptador =new Adaptadorcanciones(this,R.layout.adaptador_view,mostradas);
 
         cancionesagregar.setAdapter(adaptador);
-       cancionesagregar.setOnItemClickListener(
+        cancionesagregar.setOnItemClickListener(
         this
         );
        mSearchView = (SearchView) findViewById(R.id.search_view);
@@ -181,8 +181,21 @@ ListView cancionesagregar;
         return false;
     }
     Boolean bandera = false;
+    @Override
+    public void onClick(View v) {
 
+        if (bandera == true){
+            Collections.sort(mostradas, Collections.reverseOrder());
+            mListView.refreshDrawableState();
+            bandera = false;
+        }
+        else {
+            //Collections.sort(mostradas,Collections.);
+            mListView.refreshDrawableState();
+            bandera = true;
+        }
 
+    }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -194,7 +207,5 @@ ListView cancionesagregar;
         Playlist.playlist.put(agregada.getNombre(),agregada);
     }
 }
-
-
 
 
