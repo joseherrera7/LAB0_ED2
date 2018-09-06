@@ -1,5 +1,6 @@
 package com.ed2.joseherrera.laboratorio0;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -7,6 +8,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Switch;
@@ -41,8 +44,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     ArrayList<Cancion> mostradas;
 ListView cancionesagregar;
     public final Map<String, Cancion> diccionarioCanciones=new HashMap<>();
-    private SearchView mSearchView;
+    private EditText mSearchView;
     private ListView mListView;
+    private Button buscarbtn;
     private Button btn;
     private Switch bandera_nombre_dur;
     private final String[] mStrings = { "Google", "Apple", "Samsung", "Sony", "LG", "HTC" };
@@ -51,6 +55,7 @@ ListView cancionesagregar;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Context contex = this;
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 
@@ -91,13 +96,25 @@ ListView cancionesagregar;
         cancionesagregar.setOnItemClickListener(
         this
         );
-       mSearchView = (SearchView) findViewById(R.id.search_view);
+       mSearchView = (EditText) findViewById(R.id.editText2);
   bandera_nombre_dur=(Switch) findViewById(R.id.switch1) ;
         btn = (Button)  findViewById(R.id.ascendenteBtn);
         mListView.setAdapter(adaptador);
         mListView.setTextFilterEnabled(true);
         mListView.setOnItemClickListener(this);
-        setupSearchView();
+        buscarbtn = (Button) findViewById(R.id.btnBuscar);
+        buscarbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String llave = mSearchView.getText().toString();
+                if (diccionarioCanciones.containsKey(llave)){
+                    Toast.makeText(contex, "Si existe en la coleccion", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(contex, "No existe en la coleccion", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -161,12 +178,6 @@ ListView cancionesagregar;
 
 
     }
-    private void setupSearchView() {
-        mSearchView.setIconifiedByDefault(false);
-        mSearchView.setOnQueryTextListener(this);
-        mSearchView.setSubmitButtonEnabled(true);
-        mSearchView.setQueryHint("Search Here");
-    }
 
     public boolean onQueryTextChange(String newText) {
         if (TextUtils.isEmpty(newText)) {
@@ -181,21 +192,7 @@ ListView cancionesagregar;
         return false;
     }
     Boolean bandera = false;
-    @Override
-    public void onClick(View v) {
 
-        if (bandera == true){
-            Collections.sort(mostradas, Collections.reverseOrder());
-            mListView.refreshDrawableState();
-            bandera = false;
-        }
-        else {
-            //Collections.sort(mostradas,Collections.);
-            mListView.refreshDrawableState();
-            bandera = true;
-        }
-
-    }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
