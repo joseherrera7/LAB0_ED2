@@ -1,5 +1,5 @@
 package com.ed2.joseherrera.laboratorio0;
-
+//Clase cancion
 public class Cancion {
     public Cancion(String nombre, int duracion) {
         Duracion = duracion;

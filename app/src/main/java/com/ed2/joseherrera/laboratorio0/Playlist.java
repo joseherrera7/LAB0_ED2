@@ -21,7 +21,7 @@ public class Playlist extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
         playlistv=(ListView) findViewById(R.id.playl);
-
+        //Esto se hizo para Eliminar las playlist
         ArrayList<String> playlistmostrado;
         playlistmostrado = new ArrayList<>(playlist.keySet());
         ArrayAdapter adaptador=new ArrayAdapter(this,android.R.layout.simple_list_item_1,  playlistmostrado);

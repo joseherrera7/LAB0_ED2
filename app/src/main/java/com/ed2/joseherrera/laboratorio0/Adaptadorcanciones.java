@@ -13,7 +13,7 @@ import java.util.Locale;
 import java.util.ArrayList;
 import java.util.List;
 ;
-
+//Adaptador hecho para hacer aparacerer dos columnas en el listview principal
 public class Adaptadorcanciones extends ArrayAdapter<Cancion> {
     private static final String TAG = "CancionListAdapter";
 

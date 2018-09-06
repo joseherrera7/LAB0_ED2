@@ -41,8 +41,9 @@ import java.util.Map;
 import java.util.function.ToIntFunction;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener {
+    //Variables utilizadas por las vistas
     ArrayList<Cancion> mostradas;
-ListView cancionesagregar;
+    ListView cancionesagregar;
     public final Map<String, Cancion> diccionarioCanciones=new HashMap<>();
     private EditText mSearchView;
     private ListView mListView;
@@ -62,7 +63,7 @@ ListView cancionesagregar;
         setContentView(R.layout.activity_main);
 
         mListView = (ListView) findViewById(R.id.canciones);
-
+        //Se crearon las canciones por defecto
         Cancion cancion1 = new Cancion("Brindemos", 120);
         Cancion cancion2 = new Cancion("Rain Over ME", 155);
         Cancion cancion3 = new Cancion("Astronomia", 132);
@@ -76,7 +77,7 @@ ListView cancionesagregar;
 
         cancionesagregar=(ListView) findViewById(R.id.canciones);
 
-
+        //Se agregaron las canciones al diccionario
         diccionarioCanciones.put(cancion1.getNombre(),cancion1);
         diccionarioCanciones.put(cancion2.getNombre(),cancion2);
         diccionarioCanciones.put(cancion3.getNombre(),cancion3);
@@ -103,6 +104,7 @@ ListView cancionesagregar;
         mListView.setTextFilterEnabled(true);
         mListView.setOnItemClickListener(this);
         buscarbtn = (Button) findViewById(R.id.btnBuscar);
+        //Método para boton de buscar
         buscarbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +118,7 @@ ListView cancionesagregar;
             }
         });
 
-
+        //metodo para boton de ordenar
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -195,7 +197,7 @@ ListView cancionesagregar;
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        //Agregar al playlist
         String var;
         var=adapterView.getItemAtPosition(i).toString();
         Toast.makeText(adapterView.getContext(),"Cancion agregada: "+mostradas.get(i).getNombre(),Toast.LENGTH_SHORT).show();
